@@ -1,4 +1,4 @@
-package test.di01;
+package test.di05.javaconfig;
 
 public class MembersDao {
 	public int insert(String data) {

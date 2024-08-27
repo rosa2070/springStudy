@@ -1,5 +1,8 @@
-package test.di01;
+package test.di04.anno;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class MembersDao {
 	public int insert(String data) {
 		System.out.println(data + " 등록완료");
