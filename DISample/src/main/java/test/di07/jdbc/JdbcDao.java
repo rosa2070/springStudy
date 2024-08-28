@@ -66,6 +66,7 @@ public class JdbcDao {
 				return vo;
 			}
 		};
-		return jdbcTemplate.queryForObject(sql, rowMapper, num);
+		MembersVo vo = jdbcTemplate.queryForObject(sql, rowMapper, num);
+		return vo;
 	}
 }
