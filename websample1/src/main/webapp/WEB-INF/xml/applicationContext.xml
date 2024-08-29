@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- applicationContext.xml ==> 웹과 관련이 없는 전역객체들 설정(DAO,Serivce등) -->
+	 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	 	<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	 	<property name="username" value="c##java"/>
+	 	<property name="password" value="c##java"/>
+	 </bean>
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="dataSource" ref="dataSource"/>
+	 	<property name="mapperLocations" value="classpath*:test/mybatis/*.xml"/>
+	 </bean>
+	 <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg index="0" ref="sqlSessionFactory"/>
+	 </bean>
+	 
+	 <!-- 
+	 <bean id="dao" class="com.jhta.dao.MembersDao">
+	 	<property name="sqlSession" ref="sqlSession"/>
+	 </bean>
+	 <bean id="myusersDao" class="com.jhta.dao.MyUsersDao">
+	 	<property name="sqlSession" ref="sqlSession"/>
+	 </bean>
+	 
+	 <bean id="service" class="com.jhta.service.MembersService">
+	 	<constructor-arg ref="dao"/>
+	 </bean>
+	 
+	 <bean id="myUsersService" class="com.jhta.service.MyUsersService">
+	 	<property name="dao" ref="myusersDao"/>
+	 </bean>
+	 -->
+	 
+	 <mybatis-spring:scan base-package="test.mybatis"/>
+	 <context:component-scan base-package="com.jhta.service"/>
+</beans>
+
+
+
+
+
+
+
