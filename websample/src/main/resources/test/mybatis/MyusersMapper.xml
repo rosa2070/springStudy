@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.mybatis.MyusersMapper">
+<insert id="insert" parameterType="test.vo.MyusersVo">
+	insert into myusers 
+	values (#{username}, #{password}, #{email})
+</insert>
+<delete id="delete" parameterType="String">
+	delete from myusers where username=#{username}
+</delete>
+<update id="update" parameterType="test.vo.MyuserVo">
+	update myusers
+	set password=#{password}, email=#{email}
+	where username=#{username} 
+</update>
+<select id="selectAll" resultType="test.vo.MyusersVo">
+	select * from myusers
+</select>
+<select id="select" parameterType="String" resultType="test.vo.MyusersVo">
+	select * from myusers where username=#{username}
+</select>
+</mapper>
