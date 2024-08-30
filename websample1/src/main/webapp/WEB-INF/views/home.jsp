@@ -9,6 +9,7 @@
 </head>
 <body>
 <h1>Home!!!!!</h1>
+<img src="<%=request.getContextPath()%>/resources/images/1.jpg">
 <ul>
 	<li><a href="fortune?day=1">오늘의 운세</a></li>
 	<li><a href="fortune?day=2">내일의 운세</a></li>

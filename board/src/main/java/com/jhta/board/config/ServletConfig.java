@@ -1,4 +1,4 @@
-package com.jhta.config;
+package com.jhta.board.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 //appServlet-servlet.xml파일을 대신하는 자바 설정 클래스
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.jhta.controller"})
+@ComponentScan(basePackages = {"com.jhta.board.controller"})
 public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {

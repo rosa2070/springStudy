@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mybatis.mapper.BoardMapper">
+	<insert id="insert" parameterType="com.jhta.board.dto.BoardDto">
+		insert into board
+		values
+		(board_seq.nextval, #{writer}, #{title}, #{content}, #{hit}, sysdate)
+	</insert>
+	<sql id="search">
+		<if test="field!=null and field!=''">
+			where ${field} like '%'||#{keyword}||'%'
+		</if>
+	</sql>
+	<select id="list" parameterType="hashmap" resultType="com.jhta.board.dto.BoardDto">
+		select * from
+		(
+			select b.*, rownum rnum
+			from (
+				select * from board
+				<include refid="search" />
+				order by num desc
+			) b
+		)
+		<![CDATA[ where rnum >=#{startRow} and rnum <=#{endRow} ]]>
+	</select>
+
+	<!-- 전체 글의 갯수 -->
+	<select id="count" resultType="int">
+		select NVL(count(*), 0) from board
+		<include refid="search"></include>
+	</select>
+
+	<!-- 조회수 올리기 -->
+	<update id="addHit" parameterType="int">
+		update board set hit=hit+1
+		where num=#{num}
+	</update>
+
+	<!-- 글정보 -->
+	<select id="detail" parameterType="int"
+		resultType="com.jhta.board.dto.BoardDto">
+		select * from board where num=#{num}
+	</select>
+
+	<!-- 이전글 
+		select * from board 
+		where num = (select MAX(num) from board where num<99); 
+		select * from ( select * from board 
+		where num<99 order by num desc ) where rownum = 1; -->
+	<select id="prev" parameterType="int"
+		resultType="com.jhta.board.dto.BoardDto">
+		<![CDATA[
+		select * from board
+		where num=(select max(num) from board where num<#{num})
+		]]>
+	</select>
+
+	<!-- 다음글 
+		select * from board where num=(select min(num) 
+		from board where num>88); 
+		select * from ( select * from board where num>88 
+		order by num asc ) where rownum=1; -->
+	<select id="next" parameterType="int"
+		resultType="com.jhta.board.dto.BoardDto">
+		<![CDATA[
+			select * from board 
+			where num=(select min(num) from board where num>#{num})
+		]]>
+	</select>
+
+
+</mapper>
