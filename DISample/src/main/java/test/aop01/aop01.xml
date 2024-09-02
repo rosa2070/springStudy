@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- 핵심관심사항 객체 -->
+	<bean id="membersDao" class="test.aop01.MembersDaoImpl" />
+	<!-- 공통관심사항 객체 -->
+	<bean id="myAdvice" class="test.aop01.MyAdvice"/>
+	<!-- aop설정 -->
+	<aop:config>
+		<aop:aspect ref="myAdvice">
+			<!-- 포인트컷 설정 : 어느지점에 advice가 삽입될건지 / 
+				test.aop01패키지의 모든 클래스에 파라미터 0개 이상인 모든 메소드에 적용
+			 -->
+			 <aop:pointcut expression="execution(public * test.aop01..*(..))" id="pointCut"/>
+			 <aop:before method="test1" pointcut-ref="pointCut"/>
+			 <aop:after method="test2" pointcut-ref="pointCut"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>

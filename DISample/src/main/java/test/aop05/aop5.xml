@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+		
+		<!-- test.aop1.MembersDaoImpl 객체를 설정하고 aop가 적용되도록 설정해 보세요
+		메인메소드에서 dao 사용해 보세요 -->
+		<bean class="test.aop01.MembersDaoImpl" id="dao"/>
+		<bean class="test.aop05.LogAdviceAround" id="advice"/>
+		
+		<aop:config>
+			<aop:pointcut expression="execution(* test.aop01..*(..))" id="pointCut"/>		
+			<aop:advisor advice-ref="advice" pointcut-ref="pointCut"/>
+		</aop:config>
+</beans>

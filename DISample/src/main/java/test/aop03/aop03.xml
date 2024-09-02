@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!-- 핵심 비즈니스 로직을 구현하는 빈 -->
+	<bean id="membersDao" class="test.aop01.MembersDaoImpl"/>
+	
+	<!--  공통 관심 사항을 처리하는 빈 -->
+	<bean id="advice" class="test.aop03.ExecuteTimeAdvice"/>
+	
+	<!-- AOP 설정 -->
+	<aop:config>
+		<aop:aspect ref="advice">
+			<!-- 포인트컷 설정 : test.aop01 패키지의 모든 클래스의 모든 public 메소드에 적용 -->
+			<aop:pointcut expression="execution(* test.aop01..*(..))" id="pointCut"/>
+			
+			<!--  Around Advice 설정 -->
+			<aop:around method="execute" pointcut-ref="pointCut"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>
